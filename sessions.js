@@ -9,15 +9,38 @@ async function fetchSessions() {
 }
 
 function displaySessions(trainingSessions) {
-    const sessionList = document.getElementById('sessionList');
-    sessionList.innerHTML = '';
+    const sessionsList = document.getElementById('sessionList'); 
+    sessionsList.innerHTML = ''; 
+  
+    const table = document.createElement('table');
+    table.classList.add('session-table');
+  
 
-    trainingSessions.forEach((session, index) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `Name: ${session.name}, Instructur: ${session.instructor}, Duration: ${session.durationInMinutes} minutes`;
-        sessionList.appendChild(listItem);
-    })
-}
+    const headerRow = table.insertRow();
+    const headers = ['Name', 'Instructur', 'Duration (minutes)', 'Club name'];
+    headers.forEach(headerText => {
+      const headerCell = document.createElement('th');
+      headerCell.textContent = headerText;
+      headerRow.appendChild(headerCell);
+    });
+  
+    trainingSessions.forEach(session => {
+      const row = table.insertRow();
+      const cell1 = row.insertCell(0);
+      const cell2 = row.insertCell(1);
+      const cell3 = row.insertCell(2);
+      const cell4 = row.insertCell(3)
+
+  
+      cell1.textContent = session.name;
+      cell2.textContent = session.instructor;
+      cell3.textContent = session.durationInMinutes;
+      cell4.textContent = session.clubName;
+    });
+  
+    sessionsList.appendChild(table);
+  }
+  
 
 fetchSessions()
 .then((sessionList) => displaySessions(sessionList))
